@@ -45,15 +45,18 @@ void Mascota::comer() {
 }
 
 void Mascota::jugar() {
-    if (felicidad < 10) felicidad++;
-    if (energia > 0) energia--;
-
-    cout << nombre << " ha jugado." << endl;
-    cout << "Felicidad: " << felicidad << "/10 | Energia: " << energia << "/10" << endl;
+    if (energia > 0) {
+        if (felicidad < 10) felicidad++;
+        energia--;
+        cout << nombre << " ha jugado." << endl;
+        cout << "Felicidad: " << felicidad << "/10 | Energia: " << energia << "/10" << endl;
+    }
+    else {
+        cout << nombre << " esta demasiado cansado para jugar. Hazlo dormir primero." << endl;
+    }
     cout << "  (\\__/)" << endl;
     cout << "  (=^_^=)" << endl;
     cout << "  (\")_(\")" << endl;
-    
 }
 
 void Mascota::dormir() {
