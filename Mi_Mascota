@@ -34,14 +34,19 @@ Mascota::Mascota(string _nombre, int _energia, int _hambre, int _felicidad) {
 }
 
 void Mascota::comer() {
-    if (hambre > 0) hambre--;
-    if (energia < 10) energia++;
+    if (hambre > 0) {
+        hambre--;
+        if (energia < 10) energia++;
 
-    cout << nombre << " ha comido." << endl;
+        cout << nombre << " ha comido." << endl;
+    }
+    else {
+        cout << nombre << " No tiene hambre en este momento." << endl;
+    }
     cout << "Hambre: " << hambre << "/10 | Energia: " << energia << "/10" << endl;
-    cout << "  (\\__/)" << endl;
-    cout << "  (='o'=)" << endl;
-    cout << "  (\")_(\")" << endl;
+    cout << "  (\\__/)" << endl<<endl;
+    cout << "  (='o'=)" << endl<<endl;
+    cout << "  (\")_(\")" << endl<<endl;
 }
 
 void Mascota::jugar() {
