@@ -15,16 +15,6 @@ public:
     void jugar();
     void dormir();
     void estado();
-
-    void setNombre(string);
-    void setEnergia(int);
-    void setHambre(int);
-    void setFelicidad(int);
-
-    string getNombre();
-    int getEnergia();
-    int getHambre();
-    int getFelicidad();
 };
 
 Mascota::Mascota(string _nombre, int _energia, int _hambre, int _felicidad) {
