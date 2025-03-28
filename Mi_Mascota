@@ -1,5 +1,6 @@
 #include <iostream>
 using namespace std;
+const int maximo_valor = 10;
 
 class Mascota {
 private:
@@ -36,7 +37,7 @@ Mascota::Mascota(string _nombre, int _energia, int _hambre, int _felicidad) {
 void Mascota::comer() {
     if (hambre > 0) {
         hambre--;
-        if (energia < 10) energia++;
+        if (energia < maximo_valor) energia++;
 
         cout << nombre << " ha comido." << endl;
     }
@@ -51,9 +52,9 @@ void Mascota::comer() {
 
 void Mascota::jugar() {
     if (energia > 0) {
-        if (felicidad < 10) felicidad++;
+        if (felicidad < maximo_valor) felicidad++;
         energia--;
-        if (hambre < 10)hambre++;
+        if (hambre < maximo_valor)hambre++;
         cout << nombre << " ha jugado." << endl;
         cout << "Felicidad: " << felicidad << "/10 | Energia: " << energia << "/10" << endl;
     }
@@ -66,7 +67,7 @@ void Mascota::jugar() {
 }
 
 void Mascota::dormir() {
-    energia = 10;
+    energia = maximo_valor;
     cout << nombre << " ha dormido y ahora tiene energia: " << energia << "/10" << endl;
     cout << "  (\\(\\" << endl << endl;
     cout << "  ( -_-)" << endl << endl;
@@ -112,7 +113,7 @@ int main() {
             continue;
         }
 
-        system("cls"); // O usa system("clear") en Linux/macOS
+        system("cls"); 
 
         switch (opc) {
         case 0:
