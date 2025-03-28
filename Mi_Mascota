@@ -1,0 +1,131 @@
+#include <iostream>
+using namespace std;
+
+class Mascota {
+private:
+    string nombre;
+    int energia;
+    int hambre;
+    int felicidad;
+
+public:
+    Mascota(string, int,int, int);
+    void comer();
+    void jugar();
+    void dormir();
+    void estado();
+
+    void setNombre(string);
+    void setEnergia(int);
+    void setHambre(int);
+    void setFelicidad(int);
+
+    string getNombre();
+    int getEnergia();
+    int getHambre();
+    int getFelicidad();
+};
+
+Mascota::Mascota(string _nombre, int _energia, int _hambre, int _felicidad) {
+    nombre = _nombre;
+    energia = _energia;
+    hambre = _hambre;
+    felicidad = _felicidad;
+}
+
+void Mascota::comer() {
+    if (hambre > 0) hambre--;
+    if (energia < 10) energia++;
+
+    cout << nombre << " ha comido." << endl;
+    cout << "Hambre: " << hambre << "/10 | Energia: " << energia << "/10" << endl;
+    cout << "  (\\__/)" << endl;
+    cout << "  (='o'=)" << endl;
+    cout << "  (\")_(\")" << endl;
+}
+
+void Mascota::jugar() {
+    if (felicidad < 10) felicidad++;
+    if (energia > 0) energia--;
+
+    cout << nombre << " ha jugado." << endl;
+    cout << "Felicidad: " << felicidad << "/10 | Energia: " << energia << "/10" << endl;
+    cout << "  (\\__/)" << endl;
+    cout << "  (=^_^=)" << endl;
+    cout << "  (\")_(\")" << endl;
+    
+}
+
+void Mascota::dormir() {
+    energia = 10;
+    cout << nombre << " ha dormido y ahora tiene energia: " << energia << "/10" << endl;
+    cout << "  (\\(\\" << endl << endl;
+    cout << "  ( -_-)" << endl << endl;
+    cout << "  o_(\")(\")" << endl << endl;
+}
+
+void Mascota::estado() {
+    cout << "\n---- Estado de " << nombre << " ----" << endl;
+    cout << "Energia: " << energia << "/10" << endl;
+    cout << "Felicidad: " << felicidad << "/10" << endl;
+    cout << "Hambre: " << hambre << "/10" << endl;
+    cout << "  (\\__/)" << endl << endl;
+    cout << "  (='.'=)" << endl << endl;
+    cout << "  (\")_(\")" << endl << endl;
+}
+
+void mostrarMenu() {
+    cout << "\n|-------- Mascota Virtual RJ45-----------| " << endl;
+    cout << "|-------------------------|---------------|" << endl;
+    cout << "|1. Ver estado de Mascota |               |" << endl;
+    cout << "|2. Alimentar Mascota     |   (\\__/)      |" << endl;
+    cout << "|3. Jugar con Mascota     |   (='.'=)     |" << endl;
+    cout << "|4. Dormir Mascota        |   (\")_(\")     |" << endl;
+    cout << "|0. Salir                 |               |" << endl;
+    cout << "|-------------------------|---------------|"<<endl;
+    cout << "Seleccione una opcion: ";
+}
+
+int main() {
+    string nombre = "RJ45";
+    int opc;
+
+    Mascota conejo(nombre, 7, 7, 7);
+
+    do {
+        mostrarMenu();
+        cin >> opc;
+
+        if (cin.fail()) {
+            cin.clear();
+            cin.ignore(10000, '\n');
+            cout << "Entrada inválida. Intenta de nuevo.\n";
+            continue;
+        }
+
+        system("cls"); // O usa system("clear") en Linux/macOS
+
+        switch (opc) {
+        case 0:
+            cout << "Saliendo del juego..." << endl;
+            break;
+        case 1:
+            conejo.estado();
+            break;
+        case 2:
+            conejo.comer();
+            break;
+        case 3:
+            conejo.jugar();
+            break;
+        case 4:
+            conejo.dormir();
+            break;
+        default:
+            cout << "Opcion incorrecta. Intentalo de nuevo." << endl;
+        }
+
+    } while (opc != 0);
+
+    return 0;
+}
