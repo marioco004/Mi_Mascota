@@ -53,15 +53,16 @@ void Mascota::jugar() {
     if (energia > 0) {
         if (felicidad < 10) felicidad++;
         energia--;
+        if (hambre < 10)hambre++;
         cout << nombre << " ha jugado." << endl;
         cout << "Felicidad: " << felicidad << "/10 | Energia: " << energia << "/10" << endl;
     }
     else {
         cout << nombre << " esta demasiado cansado para jugar. Hazlo dormir primero." << endl;
     }
-    cout << "  (\\__/)" << endl;
-    cout << "  (=^_^=)" << endl;
-    cout << "  (\")_(\")" << endl;
+    cout << "  (\\__/)" << endl<<endl;
+    cout << "  (=^_^=)" << endl<<endl;
+    cout << "  (\")_(\")" << endl<<endl;
 }
 
 void Mascota::dormir() {
@@ -98,7 +99,7 @@ int main() {
     string nombre = "RJ45";
     int opc;
 
-    Mascota conejo(nombre, 7, 7, 7);
+    Mascota conejo(nombre, 7, 3, 5);
 
     do {
         mostrarMenu();
