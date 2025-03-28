@@ -1,5 +1,6 @@
 #include <iostream>
 using namespace std;
+
 const int maximo_valor = 10;
 
 class Mascota {
@@ -10,13 +11,30 @@ private:
     int felicidad;
 
 public:
-    Mascota(string, int,int, int);
+    // Constructor
+    Mascota(string, int, int, int);
+
+    // Getters y Setters
+    string getNombre();
+    void setNombre(string _nombre);
+
+    int getEnergia();
+    void setEnergia(int _energia);
+
+    int getHambre();
+    void setHambre(int _hambre);
+
+    int getFelicidad();
+    void setFelicidad(int _felicidad);
+
+    // Métodos de acción
     void comer();
     void jugar();
     void dormir();
     void estado();
 };
 
+// ImplementaciON del Constructor
 Mascota::Mascota(string _nombre, int _energia, int _hambre, int _felicidad) {
     nombre = _nombre;
     energia = _energia;
@@ -24,6 +42,40 @@ Mascota::Mascota(string _nombre, int _energia, int _hambre, int _felicidad) {
     felicidad = _felicidad;
 }
 
+// Getters y Setters
+string Mascota::getNombre() {
+    return nombre;
+}
+
+void Mascota::setNombre(string _nombre) {
+    nombre = _nombre;
+}
+
+int Mascota::getEnergia() {
+    return energia;
+}
+
+void Mascota::setEnergia(int _energia) {
+    energia = _energia;
+}
+
+int Mascota::getHambre() {
+    return hambre;
+}
+
+void Mascota::setHambre(int _hambre) {
+    hambre = _hambre;
+}
+
+int Mascota::getFelicidad() {
+    return felicidad;
+}
+
+void Mascota::setFelicidad(int _felicidad) {
+    felicidad = _felicidad;
+}
+
+// Métodos de acción
 void Mascota::comer() {
     if (hambre > 0) {
         hambre--;
@@ -32,28 +84,28 @@ void Mascota::comer() {
         cout << nombre << " ha comido." << endl;
     }
     else {
-        cout << nombre << " No tiene hambre en este momento." << endl;
+        cout << nombre << " no tiene hambre en este momento." << endl;
     }
     cout << "Hambre: " << hambre << "/10 | Energia: " << energia << "/10" << endl;
-    cout << "  (\\__/)" << endl<<endl;
-    cout << "  (='o'=)" << endl<<endl;
-    cout << "  (\")_(\")" << endl<<endl;
+    cout << "  (\\__/)" << endl << endl;
+    cout << "  (='o'=)" << endl << endl;
+    cout << "  (\")_(\")" << endl << endl;
 }
 
 void Mascota::jugar() {
     if (energia > 0) {
         if (felicidad < maximo_valor) felicidad++;
         energia--;
-        if (hambre < maximo_valor)hambre++;
+        if (hambre < maximo_valor) hambre++;
         cout << nombre << " ha jugado." << endl;
         cout << "Felicidad: " << felicidad << "/10 | Energia: " << energia << "/10" << endl;
     }
     else {
-        cout << nombre << " esta demasiado cansado para jugar. Hazlo dormir primero." << endl;
+        cout << nombre << " Esta muy cansado para jugar. Hazlo dormir primero." << endl;
     }
-    cout << "  (\\__/)" << endl<<endl;
-    cout << "  (=^_^=)" << endl<<endl;
-    cout << "  (\")_(\")" << endl<<endl;
+    cout << "  (\\__/)" << endl << endl;
+    cout << "  (=^_^=)" << endl << endl;
+    cout << "  (\")_(\")" << endl << endl;
 }
 
 void Mascota::dormir() {
@@ -82,7 +134,7 @@ void mostrarMenu() {
     cout << "|3. Jugar con Mascota     |   (='.'=)     |" << endl;
     cout << "|4. Dormir Mascota        |   (\")_(\")     |" << endl;
     cout << "|0. Salir                 |               |" << endl;
-    cout << "|-------------------------|---------------|"<<endl;
+    cout << "|-------------------------|---------------|" << endl;
     cout << "Seleccione una opcion: ";
 }
 
@@ -90,6 +142,7 @@ int main() {
     string nombre = "RJ45";
     int opc;
 
+    // Creación del objeto Mascota
     Mascota conejo(nombre, 7, 3, 5);
 
     do {
@@ -99,11 +152,11 @@ int main() {
         if (cin.fail()) {
             cin.clear();
             cin.ignore(10000, '\n');
-            cout << "Entrada inválida. Intenta de nuevo.\n";
+            cout << "Entrada invalida. Intenta de nuevo.\n";
             continue;
         }
 
-        cout << "\033[2J\033[1;1H";
+        cout << "\033[2J\033[1;1H"; // Limpia la pantalla
 
         switch (opc) {
         case 0:
