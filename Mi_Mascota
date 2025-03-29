@@ -93,6 +93,10 @@ void Mascota::comer() {
 }
 
 void Mascota::jugar() {
+    if (hambre == maximo_valor) {
+        cout << nombre << " tiene demasiada hambre para jugar. Debes alimentarlo primero." << endl;
+        return;
+    }
     if (energia > 0) {
         if (felicidad < maximo_valor) felicidad++;
         energia--;
