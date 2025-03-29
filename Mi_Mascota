@@ -114,6 +114,7 @@ void Mascota::jugar() {
 
 void Mascota::dormir() {
     energia = maximo_valor;
+    if (hambre < maximo_valor)hambre++;//Aumenta hambre al dormir
     cout << nombre << " ha dormido y ahora tiene energia: " << energia << "/10" << endl;
     cout << "  (\\(\\" << endl << endl;
     cout << "  ( -_-)" << endl << endl;
