@@ -1,4 +1,7 @@
 #include <iostream>
+#include <thread>
+#include <chrono>
+
 using namespace std;
 
 const int maximo_valor = 10;
@@ -81,10 +84,10 @@ void Mascota::comer() {
         hambre--;
         if (energia < maximo_valor) energia++;
 
-        cout << nombre << " ha comido." << endl;
+        cout << nombre << " Estoy comiendo comido." << endl;
     }
     else {
-        cout << nombre << " no tiene hambre en este momento." << endl;
+        cout << nombre << " no tengo hambre en este momento." << endl;
     }
     cout << "Hambre: " << hambre << "/10 | Energia: " << energia << "/10" << endl;
     cout << "  (\\__/)" << endl << endl;
@@ -94,18 +97,18 @@ void Mascota::comer() {
 
 void Mascota::jugar() {
     if (hambre == maximo_valor) {
-        cout << nombre << " tiene demasiada hambre para jugar. Debes alimentarlo primero." << endl;
+        cout << nombre << " tengo mucha hambre para jugar. quiero comer un poco." << endl;
         return;
     }
     if (energia > 0) {
         if (felicidad < maximo_valor) felicidad++;
         energia--;
         if (hambre < maximo_valor) hambre++;
-        cout << nombre << " ha jugado." << endl;
+        cout << nombre << " estoy jugando." << endl;
         cout << "Felicidad: " << felicidad << "/10 | Energia: " << energia << "/10" << endl;
     }
     else {
-        cout << nombre << " Esta muy cansado para jugar. Hazlo dormir primero." << endl;
+        cout << nombre << " Estoy muy cansado para jugar. quiero dormir un momento." << endl;
     }
     cout << "  (\\__/)" << endl << endl;
     cout << "  (=^_^=)" << endl << endl;
@@ -115,7 +118,7 @@ void Mascota::jugar() {
 void Mascota::dormir() {
     energia = maximo_valor;
     if (hambre < maximo_valor)hambre++;//Aumenta hambre al dormir
-    cout << nombre << " ha dormido y ahora tiene energia: " << energia << "/10" << endl;
+    cout << nombre << " Estoy durmiendo y recuperando mi energia  para jugar: " << energia << "/10" << endl;
     cout << "  (\\(\\" << endl << endl;
     cout << "  ( -_-)" << endl << endl;
     cout << "  o_(\")(\")" << endl << endl;
@@ -172,12 +175,22 @@ int main() {
             break;
         case 2:
             conejo.comer();
+            this_thread::sleep_for(chrono::seconds(3)); // Espera 3 segundos
+            cout << "\033[2J\033[1;1H";
+            conejo.estado();
+            // Muestra el estado después de la acción
             break;
         case 3:
             conejo.jugar();
+            this_thread::sleep_for(chrono::seconds(3));
+            cout << "\033[2J\033[1;1H";
+            conejo.estado();
             break;
         case 4:
             conejo.dormir();
+            this_thread::sleep_for(chrono::seconds(3));
+            cout << "\033[2J\033[1;1H";
+            conejo.estado();
             break;
         default:
             cout << "Opcion incorrecta. Intentalo de nuevo." << endl;
