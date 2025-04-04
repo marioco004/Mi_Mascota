@@ -1,6 +1,9 @@
 #include <iostream>
 #include <thread>
 #include <chrono>
+#include <atomic>
+#include <cstdlib>
+#include <ctime>
 
 using namespace std;
 
@@ -37,7 +40,7 @@ public:
     void estado();
 };
 
-// ImplementaciON del Constructor
+// Implementación del Constructor
 Mascota::Mascota(string _nombre, int _energia, int _hambre, int _felicidad) {
     nombre = _nombre;
     energia = _energia;
@@ -46,48 +49,31 @@ Mascota::Mascota(string _nombre, int _energia, int _hambre, int _felicidad) {
 }
 
 // Getters y Setters
-string Mascota::getNombre() {
-    return nombre;
-}
+string Mascota::getNombre() 
+{ return nombre; }
+void Mascota::setNombre(string _nombre) { nombre = _nombre; }
 
-void Mascota::setNombre(string _nombre) {
-    nombre = _nombre;
-}
+int Mascota::getEnergia() 
+{ return energia; }
+void Mascota::setEnergia(int _energia) { energia = _energia; }
 
-int Mascota::getEnergia() {
-    return energia;
-}
+int Mascota::getHambre() 
+{ return hambre; }
+void Mascota::setHambre(int _hambre) { hambre = _hambre; }
 
-void Mascota::setEnergia(int _energia) {
-    energia = _energia;
-}
-
-int Mascota::getHambre() {
-    return hambre;
-}
-
-void Mascota::setHambre(int _hambre) {
-    hambre = _hambre;
-}
-
-int Mascota::getFelicidad() {
-    return felicidad;
-}
-
-void Mascota::setFelicidad(int _felicidad) {
-    felicidad = _felicidad;
-}
+int Mascota::getFelicidad() 
+{ return felicidad; }
+void Mascota::setFelicidad(int _felicidad) { felicidad = _felicidad; }
 
 // Métodos de acción
 void Mascota::comer() {
     if (hambre > 0) {
         hambre--;
         if (energia < maximo_valor) energia++;
-
-        cout << nombre << " Estoy comiendo comido." << endl;
+        cout << nombre << " Estoy comiendo mmm." << endl;
     }
     else {
-        cout << nombre << " no tengo hambre en este momento." << endl;
+        cout << nombre << " No tengo hambre en este momento." << endl;
     }
     cout << "Hambre: " << hambre << "/10 | Energia: " << energia << "/10" << endl;
     cout << "  (\\__/)" << endl << endl;
@@ -97,18 +83,18 @@ void Mascota::comer() {
 
 void Mascota::jugar() {
     if (hambre == maximo_valor) {
-        cout << nombre << " tengo mucha hambre para jugar. quiero comer un poco." << endl;
+        cout << nombre << " Tengo mucha hambre para jugar. Quiero comer un poco." << endl;
         return;
     }
     if (energia > 0) {
         if (felicidad < maximo_valor) felicidad++;
         energia--;
         if (hambre < maximo_valor) hambre++;
-        cout << nombre << " estoy jugando." << endl;
+        cout << nombre << " Estoy jugando." << endl;
         cout << "Felicidad: " << felicidad << "/10 | Energia: " << energia << "/10" << endl;
     }
     else {
-        cout << nombre << " Estoy muy cansado para jugar. quiero dormir un momento." << endl;
+        cout << nombre << " Estoy muy cansado para jugar. Quiero dormir un momento." << endl;
     }
     cout << "  (\\__/)" << endl << endl;
     cout << "  (=^_^=)" << endl << endl;
@@ -117,8 +103,8 @@ void Mascota::jugar() {
 
 void Mascota::dormir() {
     energia = maximo_valor;
-    if (hambre < maximo_valor)hambre++;//Aumenta hambre al dormir
-    cout << nombre << " Estoy durmiendo y recuperando mi energia  para jugar: " << energia << "/10" << endl;
+    if (hambre < maximo_valor) hambre++;
+    cout << nombre << " Estoy durmiendo y recuperando mi energia.  Energia: " << energia << "/10" << endl;
     cout << "  (\\(\\" << endl << endl;
     cout << "  ( -_-)" << endl << endl;
     cout << "  o_(\")(\")" << endl << endl;
@@ -143,30 +129,57 @@ void mostrarMenu() {
     cout << "|4. Dormir Mascota        |   (\")_(\")     |" << endl;
     cout << "|0. Salir                 |               |" << endl;
     cout << "|-------------------------|---------------|" << endl;
-    cout << "Seleccione una opcion: ";
+    cout << "Seleccione una opcion (tienes 4 segundos): ";
 }
 
 int main() {
     string nombre = "RJ45";
-    int opc;
+    int opcion = -1;
 
-    // Creación del objeto Mascota
     Mascota conejo(nombre, 7, 3, 5);
+
+    srand(time(0)); // Semilla para aleatoriedad
 
     do {
         mostrarMenu();
-        cin >> opc;
 
-        if (cin.fail()) {
-            cin.clear();
-            cin.ignore(10000, '\n');
-            cout << "Entrada invalida. Intenta de nuevo.\n";
-            continue;
+        atomic<bool> entrada_recibida(false);
+        int opc_usuario = -1;
+
+        // Hilo para capturar entrada
+        thread entrada_thread([&]() {
+            int entrada_temp;
+            cin >> entrada_temp;
+            if (!cin.fail()) {
+                opc_usuario = entrada_temp;
+                entrada_recibida = true;
+            }
+            else {
+                cin.clear();
+                cin.ignore(10000, '\n');
+            }
+            });
+
+        // Espera hasta 4 segundos o entrada
+        for (int i = 0; i < 30 && !entrada_recibida; ++i) {
+            this_thread::sleep_for(chrono::milliseconds(150));
         }
+
+        if (entrada_recibida) {
+            opcion = opc_usuario;
+        }
+        else {
+            int opciones[] = { 2, 3, 4 };
+            opcion = opciones[rand() % 3];
+            cout << "\nNo se seleccionaste ninguna opcion. Ejecutando accion automtica...\n";
+            this_thread::sleep_for(chrono::seconds(3));
+        }
+
+        entrada_thread.detach(); // Liberar el hilo
 
         cout << "\033[2J\033[1;1H"; // Limpia la pantalla
 
-        switch (opc) {
+        switch (opcion) {
         case 0:
             cout << "Saliendo del juego..." << endl;
             break;
@@ -174,28 +187,30 @@ int main() {
             conejo.estado();
             break;
         case 2:
+            
             conejo.comer();
-            this_thread::sleep_for(chrono::seconds(3)); // Espera 3 segundos
-            cout << "\033[2J\033[1;1H";
-            conejo.estado();
-            // Muestra el estado después de la acción
             break;
         case 3:
+            
             conejo.jugar();
-            this_thread::sleep_for(chrono::seconds(3));
-            cout << "\033[2J\033[1;1H";
-            conejo.estado();
             break;
         case 4:
             conejo.dormir();
+            break;
+        default:
+            cout << "Opcion incorrecta. Intenta de nuevo." << endl;
+        }
+
+        if (opcion != 0) {
             this_thread::sleep_for(chrono::seconds(3));
             cout << "\033[2J\033[1;1H";
             conejo.estado();
-            break;
-        default:
-            cout << "Opcion incorrecta. Intentalo de nuevo." << endl;
         }
 
+    } while (opcion != 0);
+
+    return 0;
+}
     } while (opc != 0);
 
     return 0;
